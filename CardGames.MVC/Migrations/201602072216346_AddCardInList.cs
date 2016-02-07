@@ -29,31 +29,17 @@ namespace CardGames.MVC.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         Name = c.String(),
                         Description = c.String(),
-                        CardInCardList_CardId = c.Int(),
-                        CardInCardList_CardListId = c.Int(),
                     })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.CardInCardLists", t => new { t.CardInCardList_CardId, t.CardInCardList_CardListId })
-                .Index(t => new { t.CardInCardList_CardId, t.CardInCardList_CardListId });
+                .PrimaryKey(t => t.Id);
             
-            AddColumn("dbo.CardLists", "CardInCardList_CardId", c => c.Int());
-            AddColumn("dbo.CardLists", "CardInCardList_CardListId", c => c.Int());
-            CreateIndex("dbo.CardLists", new[] { "CardInCardList_CardId", "CardInCardList_CardListId" });
-            AddForeignKey("dbo.CardLists", new[] { "CardInCardList_CardId", "CardInCardList_CardListId" }, "dbo.CardInCardLists", new[] { "CardId", "CardListId" });
         }
         
         public override void Down()
         {
             DropForeignKey("dbo.CardInCardLists", "CardListId", "dbo.CardLists");
-            DropForeignKey("dbo.Cards", new[] { "CardInCardList_CardId", "CardInCardList_CardListId" }, "dbo.CardInCardLists");
             DropForeignKey("dbo.CardInCardLists", "CardId", "dbo.Cards");
-            DropForeignKey("dbo.CardLists", new[] { "CardInCardList_CardId", "CardInCardList_CardListId" }, "dbo.CardInCardLists");
-            DropIndex("dbo.Cards", new[] { "CardInCardList_CardId", "CardInCardList_CardListId" });
             DropIndex("dbo.CardInCardLists", new[] { "CardListId" });
             DropIndex("dbo.CardInCardLists", new[] { "CardId" });
-            DropIndex("dbo.CardLists", new[] { "CardInCardList_CardId", "CardInCardList_CardListId" });
-            DropColumn("dbo.CardLists", "CardInCardList_CardListId");
-            DropColumn("dbo.CardLists", "CardInCardList_CardId");
             DropTable("dbo.Cards");
             DropTable("dbo.CardInCardLists");
         }

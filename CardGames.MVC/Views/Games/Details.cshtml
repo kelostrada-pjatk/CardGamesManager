@@ -28,6 +28,44 @@
 
     </dl>
 </div>
+
+<div>
+    <h3>Editions</h3>
+
+    <p>
+        @Html.ActionLink("Create New", "Create", "Editions", new { id = Model.Id }, null)
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                ReleaseYear
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model.Editions)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReleaseYear)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", "Editions", new { id = item.Id }, null) |
+                    @Html.ActionLink("Details", "Details", "Editions", new { id = item.Id }, null) |
+                    @Html.ActionLink("Delete", "Delete", "Editions", new { id = item.Id }, null)
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")

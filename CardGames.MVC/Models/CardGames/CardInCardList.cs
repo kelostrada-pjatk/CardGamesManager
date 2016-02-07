@@ -15,11 +15,10 @@ namespace CardGames.MVC.Models.CardGames
         
         public int CardId { get; set; }
         public int CardListId { get; set; }
+        public virtual Card Card { get; set; }
+        public virtual CardList CardList { get; set; } 
 
         public int Number { get; set; }
         public int Quantity { get; set; }
-
-        public virtual ICollection<Card> Cards { get; set; }
-        public virtual ICollection<CardList> CardLists { get; set; } 
     }
 }

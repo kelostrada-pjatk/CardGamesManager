@@ -8,7 +8,7 @@
 
 <div>
     <h4>Edition</h4>
-    <hr />
+    <hr/>
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.Game.Name)
@@ -36,7 +36,37 @@
 
     </dl>
 </div>
+
+<h3>Card List</h3>
+
+<p>
+    @Html.ActionLink("Create new card", "Create", "Cards", new {id = Model.EditionCardListId}, null)
+</p>
+
+<table class="table">
+    <tr>
+        <th>Number</th>
+        <th>Name</th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.EditionCardList.CardInCardLists)
+    {
+        <tr>
+            <td>@item.Number</td>
+            <td>@item.Card.Name</td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new {id = item.CardId}) |
+                @Html.ActionLink("Details", "Details", new {id = item.CardId}) |
+                @Html.ActionLink("Delete", "Delete", new {id = item.CardId})
+            </td>
+        </tr>
+    }
+
+</table>
+
+
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "Details", "Games", new { id = Model.GameId }, null)
 </p>

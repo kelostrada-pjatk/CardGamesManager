@@ -13,7 +13,7 @@ namespace CardGames.MVC.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201602061155535_AddCardInList"; }
+            get { return "201602072216346_AddCardInList"; }
         }
         
         string IMigrationMetadata.Source

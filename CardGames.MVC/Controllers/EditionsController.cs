@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using CardGames.MVC;
 using CardGames.MVC.Models.CardGames;
 
 namespace CardGames.MVC.Controllers
@@ -37,11 +32,14 @@ namespace CardGames.MVC.Controllers
             return View(edition);
         }
 
-        // GET: Editions/Create
-        public ActionResult Create()
+        // GET: Editions/Create/:id
+        public ActionResult Create(int? id)
         {
-            ViewBag.EditionCardListId = new SelectList(db.CardLists, "Id", "Name");
-            ViewBag.GameId = new SelectList(db.Games, "Id", "Name");
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            ViewBag.Game = db.Games.FirstOrDefault(g => g.Id == id);
             return View();
         }
 
@@ -50,19 +48,17 @@ namespace CardGames.MVC.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,ReleaseYear,GameId")] Edition edition)
+        public ActionResult Create([Bind(Include = "Name,ReleaseYear,GameId")] Edition edition)
         {
             if (ModelState.IsValid)
             {
                 edition.EditionCardList = new EditionCardList {Name = edition.Name};
                 db.Editions.Add(edition);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "Games", new {id = edition.GameId});
             }
 
-            // ViewBag.EditionCardListId = new SelectList(db.CardLists, "Id", "Name", edition.EditionCardListId);
-            ViewBag.GameId = new SelectList(db.Games, "Id", "Name", edition.GameId);
-            return View(edition);
+            return Create(edition.GameId);
         }
 
         // GET: Editions/Edit/5
@@ -91,9 +87,13 @@ namespace CardGames.MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(edition).State = EntityState.Modified;
+                var e = db.Editions.Find(edition.Id);
+                e.GameId = edition.GameId;
+                e.Name = edition.Name;
+                e.ReleaseYear = edition.ReleaseYear;
+                db.Entry(e).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "Games", new { id = edition.GameId });
             }
             ViewBag.GameId = new SelectList(db.Games, "Id", "Name", edition.GameId);
             return View(edition);
@@ -122,7 +122,7 @@ namespace CardGames.MVC.Controllers
             Edition edition = db.Editions.Find(id);
             db.Editions.Remove(edition);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", "Games", new { id = edition.GameId });
         }
 
         protected override void Dispose(bool disposing)
