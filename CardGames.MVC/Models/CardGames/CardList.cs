@@ -39,6 +39,12 @@ namespace CardGames.MVC.Models.CardGames
 
         public virtual ICollection<Edition> Editions { get; set; }
 
+        [NotMapped]
+        public Edition Edition
+        {
+            get { return Editions.FirstOrDefault(); }
+        }
+
         public CardInCardList AddCard(Card card, int number)
         {
             var cardInCardList = base.AddCard(card);

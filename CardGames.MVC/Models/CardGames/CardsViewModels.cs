@@ -8,6 +8,9 @@ namespace CardGames.MVC.Models.CardGames
 {
     public class CardViewModel
     {
+        [Key]
+        public int CardId { get; set; }
+
         [Required]
         [Display(Name = "Number")]
         public int Number { get; set; }

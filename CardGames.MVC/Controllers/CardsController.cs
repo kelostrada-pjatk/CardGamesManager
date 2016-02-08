@@ -78,7 +78,16 @@ namespace CardGames.MVC.Controllers
             {
                 return HttpNotFound();
             }
-            return View(card);
+            var cardInList = card.CardInCardLists.FirstOrDefault(l => l.CardList is EditionCardList);
+            var cardViewModel = new CardViewModel
+            {
+                CardId = card.Id,
+                Description = card.Description,
+                Name = card.Name,
+                EditionId = ((EditionCardList)cardInList.CardList).Edition.Id,
+                Number = cardInList.Number
+            };
+            return View(cardViewModel);
         }
 
         // POST: Cards/Edit/5
@@ -86,15 +95,22 @@ namespace CardGames.MVC.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Description")] Card card)
+        public ActionResult Edit([Bind(Include = "CardId,Name,Description,Number,EditionId")] CardViewModel cardViewModel)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(card).State = EntityState.Modified;
+                var card = db.Cards.Find(cardViewModel.CardId);
+                card.Name = cardViewModel.Name;
+                card.Description = cardViewModel.Description;
+
+                var cardInList = card.CardInCardLists.First(cl => cl.CardList is EditionCardList);
+                cardInList.Number = cardViewModel.Number;
+
+                //db.Entry(card).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "Editions", new { id = cardViewModel.EditionId});
             }
-            return View(card);
+            return View(cardViewModel);
         }
 
         // GET: Cards/Delete/5
@@ -118,9 +134,10 @@ namespace CardGames.MVC.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Card card = db.Cards.Find(id);
+            var edition = card.Edition;
             db.Cards.Remove(card);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", "Editions", new {id = edition.Id});
         }
 
         protected override void Dispose(bool disposing)
