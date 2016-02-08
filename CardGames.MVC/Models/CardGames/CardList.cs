@@ -14,17 +14,19 @@ namespace CardGames.MVC.Models.CardGames
 
         public virtual ICollection<CardInCardList> CardInCardLists { get; set; }
 
-        public virtual void AddCard(Card card)
+        public virtual CardInCardList AddCard(Card card)
         {
             var cardInList = CardInCardLists.FirstOrDefault(c => c.CardId == card.Id);
             if (cardInList == null)
             {
-                CardInCardLists.Add(new CardInCardList {CardId = card.Id, CardListId = Id});
+                cardInList = new CardInCardList {Card = card, CardList = this};
+                CardInCardLists.Add(cardInList);
             }
             else
             {
                 cardInList.Quantity++;
             }
+            return cardInList;
         }
     }
 
@@ -33,6 +35,15 @@ namespace CardGames.MVC.Models.CardGames
         public EditionCardList()
         {
             Public = true;
+        }
+
+        public virtual ICollection<Edition> Editions { get; set; }
+
+        public CardInCardList AddCard(Card card, int number)
+        {
+            var cardInCardList = base.AddCard(card);
+            cardInCardList.Number = number;
+            return cardInCardList;
         }
     }
 

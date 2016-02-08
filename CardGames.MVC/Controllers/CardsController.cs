@@ -9,13 +9,7 @@ namespace CardGames.MVC.Controllers
     public class CardsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-
-        // GET: Cards
-        public ActionResult Index()
-        {
-            return View(db.Cards.ToList());
-        }
-
+        
         // GET: Cards/Details/5
         public ActionResult Details(int? id)
         {
@@ -28,12 +22,18 @@ namespace CardGames.MVC.Controllers
             {
                 return HttpNotFound();
             }
-            return View(card);
+            var cardInList = card.CardInCardLists.FirstOrDefault(l => l.CardList is EditionCardList);
+            return View(cardInList);
         }
 
         // GET: Cards/Create
-        public ActionResult Create()
+        public ActionResult Create(int? id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            ViewBag.Edition = db.Editions.Find(id);
             return View();
         }
 
@@ -42,16 +42,28 @@ namespace CardGames.MVC.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Description")] Card card)
+        public ActionResult Create([Bind(Include = "EditionId,Name,Description,Number")] CardViewModel cardViewModel)
         {
+            var edition = db.Editions.Find(cardViewModel.EditionId);
+            ViewBag.Edition = edition;
             if (ModelState.IsValid)
             {
-                db.Cards.Add(card);
+                var card = db.Cards.Create();
+                card.Name = cardViewModel.Name;
+                card.Description = cardViewModel.Description;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                db.Cards.Add(card);
+
+                var cardInList = edition.EditionCardList.AddCard(card, cardViewModel.Number);
+
+                //db.Entry(cardInList).State = EntityState.Modified; 
+
+                db.SaveChanges();
+                return RedirectToAction("Details", "Editions", new { id = edition.Id });
             }
 
-            return View(card);
+            return View(cardViewModel);
         }
 
         // GET: Cards/Edit/5

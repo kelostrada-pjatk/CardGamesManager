@@ -40,7 +40,7 @@
 <h3>Card List</h3>
 
 <p>
-    @Html.ActionLink("Create new card", "Create", "Cards", new {id = Model.EditionCardListId}, null)
+    @Html.ActionLink("Create new card", "Create", "Cards", new {id = Model.Id}, null)
 </p>
 
 <table class="table">
@@ -56,9 +56,9 @@
             <td>@item.Number</td>
             <td>@item.Card.Name</td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new {id = item.CardId}) |
-                @Html.ActionLink("Details", "Details", new {id = item.CardId}) |
-                @Html.ActionLink("Delete", "Delete", new {id = item.CardId})
+                @Html.ActionLink("Edit", "Edit", "Cards", new {id = item.CardId}, null) |
+                @Html.ActionLink("Details", "Details", "Cards", new {id = item.CardId}, null) |
+                @Html.ActionLink("Delete", "Delete", "Cards", new {id = item.CardId}, null)
             </td>
         </tr>
     }

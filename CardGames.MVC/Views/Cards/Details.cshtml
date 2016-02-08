@@ -1,4 +1,5 @@
-﻿@model CardGames.MVC.Models.CardGames.Card
+﻿@using CardGames.MVC.Models.CardGames
+@model CardInCardList
 
 @{
     ViewBag.Title = "Details";
@@ -11,24 +12,40 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Name)
+            Number
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Name)
+            @Model.Number
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Description)
+            Edition
+        </dt>
+            
+        <dd>
+            @Model.CardList.Name
+        </dd>
+
+        <dt>
+            Name
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Description)
+            @Model.Card.Name
+        </dd>
+
+        <dt>
+            Description
+        </dt>
+
+        <dd>
+            @Model.Card.Description
         </dd>
 
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Edit", "Edit", new { id = Model.CardId }) |
+    @Html.ActionLink("Back to List", "Details", "Editions", new { id = ((EditionCardList)Model.CardList).Editions.First().Id }, null)
 </p>

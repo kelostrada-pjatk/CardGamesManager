@@ -188,6 +188,7 @@
     <Compile Include="Models\CardGames\Card.cs" />
     <Compile Include="Models\CardGames\CardInCardList.cs" />
     <Compile Include="Models\CardGames\CardList.cs" />
+    <Compile Include="Models\CardGames\CardsViewModels.cs" />
     <Compile Include="Models\CardGames\Edition.cs" />
     <Compile Include="Models\CardGames\Game.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -259,7 +260,6 @@
     <Content Include="Views\Cards\Delete.cshtml" />
     <Content Include="Views\Cards\Details.cshtml" />
     <Content Include="Views\Cards\Edit.cshtml" />
-    <Content Include="Views\Cards\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
