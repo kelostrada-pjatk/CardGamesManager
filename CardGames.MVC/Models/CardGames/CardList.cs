@@ -64,7 +64,7 @@ namespace CardGames.MVC.Models.CardGames
 
     public class Deck : Collection
     {
-        
+        public virtual ICollection<Comment> Comments { get; set; } 
     }
 
     public class Collection : CardList

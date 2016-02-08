@@ -1,4 +1,5 @@
 ﻿@using CardGames.MVC.Models.CardGames
+@using Microsoft.AspNet.Identity
 @model Collection
 
 @{
@@ -64,17 +65,93 @@
             <td>@item.Card.Name</td>
             <td>@item.Card.Edition.Name</td>
             <td>
-                @Html.ActionLink("Add One", "Add", new { id = Model.Id, cardId = item.CardId }) |
-                @Html.ActionLink("Remove One", "Remove", new { id = Model.Id, cardId = item.CardId })
+                @if (User.Identity.GetUserId() == Model.UserId)
+                {
+                    @Html.ActionLink("Add One", "Add", new {id = Model.Id, cardId = item.CardId})
+                    @Html.Raw("|")
+                    @Html.ActionLink("Remove One", "Remove", new {id = Model.Id, cardId = item.CardId})
+                }
             </td>
         </tr>
     }
 
 </table>
 
+@{
+    var deck = Model as Deck;
+}
+@if (deck != null)
+{
+    <h3>Comments</h3>
 
+    <hr/>
+
+    <table class="table">
+        <tr>
+            <th>
+                Comment
+            </th>
+            <th>
+                Date Added
+            </th>
+            <th>User</th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in deck.Comments)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Content)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateAdded)
+                </td>
+                <td>@Html.DisplayFor(modelItem => item.User.UserName)</td>
+                <td>
+                    @if (item.UserId == User.Identity.GetUserId())
+                    {
+                        @Html.ActionLink("Delete", "Delete", "Comments", new {id = item.Id}, null)
+                    }
+                </td>
+            </tr>
+        }
+
+    </table>
+    
+    using (Html.BeginForm("Create", "Comments", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4>New Comment</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.Label("Content", htmlAttributes: new {@class = "control-label col-md-2"})
+                <div class="col-md-10">
+                    @Html.Editor("Content", new {htmlAttributes = new {@class = "form-control"}})
+                </div>
+            </div>
+
+            <input type="hidden" name="DeckId" value="@Model.Id"/>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Add comment" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
+}
+    
 <p>
-    @Html.ActionLink("Add card", "AddCard", new { id = Model.Id }) |
-    @Html.ActionLink("Edit", "Edit", new {id = Model.Id}) |
+    @if (User.Identity.GetUserId() == Model.UserId)
+    {
+        @Html.ActionLink("Add card", "AddCard", new {id = Model.Id}) 
+        @Html.Raw(" | ")
+        @Html.ActionLink("Edit", "Edit", new {id = Model.Id})
+        @Html.Raw(" | ")
+    }
     @Html.ActionLink("Back to List", "Index")
 </p>

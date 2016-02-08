@@ -16,7 +16,7 @@ namespace CardGames.MVC.Controllers
         public ActionResult Index()
         {
             var userId = User.Identity.GetUserId();
-            var cardLists = db.CardLists.OfType<Collection>().Include(c => c.User).Where(c => c.UserId == userId);
+            var cardLists = db.CardLists.OfType<Collection>().Include(c => c.User).Where(c => c.UserId == userId || c.Public);
             return View(cardLists.ToList());
         }
 
@@ -28,7 +28,7 @@ namespace CardGames.MVC.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var userId = User.Identity.GetUserId();
-            Collection collection = db.CardLists.OfType<Collection>().FirstOrDefault(c => c.Id == id && c.UserId == userId);
+            Collection collection = db.CardLists.OfType<Collection>().FirstOrDefault(c => c.Id == id && (c.UserId == userId || c.Public));
             if (collection == null)
             {
                 return HttpNotFound();

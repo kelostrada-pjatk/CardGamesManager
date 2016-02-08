@@ -162,6 +162,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CardsController.cs" />
     <Compile Include="Controllers\CollectionsController.cs" />
+    <Compile Include="Controllers\CommentsController.cs" />
     <Compile Include="Controllers\EditionsController.cs" />
     <Compile Include="Controllers\GamesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -188,12 +189,21 @@
     <Compile Include="Migrations\201602080838244_AddUserToCollection.Designer.cs">
       <DependentUpon>201602080838244_AddUserToCollection.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201602081152102_AddComments.cs" />
+    <Compile Include="Migrations\201602081152102_AddComments.Designer.cs">
+      <DependentUpon>201602081152102_AddComments.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201602081158301_AddUserToComments.cs" />
+    <Compile Include="Migrations\201602081158301_AddUserToComments.Designer.cs">
+      <DependentUpon>201602081158301_AddUserToComments.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CardGames\Card.cs" />
     <Compile Include="Models\CardGames\CardInCardList.cs" />
     <Compile Include="Models\CardGames\CardList.cs" />
     <Compile Include="Models\CardGames\CardsViewModels.cs" />
+    <Compile Include="Models\CardGames\Comment.cs" />
     <Compile Include="Models\CardGames\Edition.cs" />
     <Compile Include="Models\CardGames\Game.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -271,6 +281,11 @@
     <Content Include="Views\Collections\Create.cshtml" />
     <Content Include="Views\Collections\Edit.cshtml" />
     <Content Include="Views\Collections\AddCard.cshtml" />
+    <Content Include="Views\Comments\Create.cshtml" />
+    <Content Include="Views\Comments\Delete.cshtml" />
+    <Content Include="Views\Comments\Details.cshtml" />
+    <Content Include="Views\Comments\Edit.cshtml" />
+    <Content Include="Views\Comments\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -297,6 +312,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201602080838244_AddUserToCollection.resx">
       <DependentUpon>201602080838244_AddUserToCollection.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201602081152102_AddComments.resx">
+      <DependentUpon>201602081152102_AddComments.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201602081158301_AddUserToComments.resx">
+      <DependentUpon>201602081158301_AddUserToComments.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

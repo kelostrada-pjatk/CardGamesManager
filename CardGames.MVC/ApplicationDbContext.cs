@@ -15,6 +15,7 @@ namespace CardGames.MVC
         public virtual DbSet<Edition> Editions { get; set; }
         public virtual DbSet<CardList> CardLists { get; set; }
         public virtual DbSet<Card> Cards { get; set; }
+        public virtual DbSet<Comment> Comments { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
