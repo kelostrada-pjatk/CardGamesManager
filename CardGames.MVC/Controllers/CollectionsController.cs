@@ -33,7 +33,7 @@ namespace CardGames.MVC.Controllers
             {
                 return HttpNotFound();
             }
-            return View(CollectionViewModel.FromCollection(collection));
+            return View(collection);
         }
 
         // GET: Collections/Create
@@ -119,6 +119,128 @@ namespace CardGames.MVC.Controllers
             db.CardLists.Remove(collection);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        public ActionResult AddCard(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Collection collection = db.CardLists.OfType<Collection>().FirstOrDefault(c => c.Id == id);
+            if (collection == null)
+            {
+                return HttpNotFound();
+            }
+
+            var gameId = db.Games.Select(g => g.Id).Min();
+            
+            ViewBag.GameId = new SelectList(db.Games, "Id", "Name", gameId);
+            ViewBag.EditionId = new SelectList(db.Editions.Where(e => e.GameId == gameId), "Id", "Name");
+            ViewBag.CardId = new SelectList(new Card[0], "Id", "Name");
+            ViewBag.Collection = collection;
+            return View(new AddCardViewModel {CollectionId = id.Value} );
+        }
+
+        [HttpPost, ActionName("AddCard")]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddCard([Bind(Include = "CollectionId,CardId,EditionId,GameId,Quantity")] AddCardViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            Collection collection = db.CardLists.OfType<Collection>().FirstOrDefault(c => c.Id == viewModel.CollectionId);
+
+            if (collection == null)
+            {
+                return HttpNotFound();
+            }
+            
+            if (viewModel.CardId != null)
+            {
+                var card = db.Cards.Find(viewModel.CardId);
+                collection.AddCard(card, viewModel.Quantity);
+                db.SaveChanges();
+
+                return RedirectToAction("Details", new { id = viewModel.CollectionId });
+            }
+
+            if (viewModel.GameId == null)
+            {
+                viewModel.GameId = db.Games.Select(g => g.Id).Min();
+            }
+            
+            ViewBag.GameId = new SelectList(db.Games, "Id", "Name", viewModel.GameId);
+            ViewBag.EditionId = new SelectList(db.Editions.Where(e => e.GameId == viewModel.GameId), "Id", "Name");
+            ViewBag.CardId = new SelectList(new Card[0], "Id", "Name");
+
+            if (viewModel.GameId != null)
+            {
+                ViewBag.EditionId = new SelectList(db.Editions.Where(edition => edition.GameId == viewModel.GameId), 
+                    "Id", "Name", viewModel.GameId);
+            }
+
+            if (viewModel.EditionId != null)
+            {
+                var edition = db.Editions.Find(viewModel.EditionId);
+                if (viewModel.GameId == edition.GameId)
+                {
+                    ViewBag.CardId = new SelectList(db.Cards.ToList().Where(c => c.Edition.Id == viewModel.EditionId),
+                        "Id", "Name", viewModel.CardId);
+                }
+            }
+            
+            ViewBag.Collection = collection;
+
+            return View(viewModel);
+        }
+
+        [HttpGet, ActionName("Add")]
+        public ActionResult Add(int id, int cardId)
+        {
+            var collection = db.CardLists.OfType<Collection>().FirstOrDefault(c => c.Id == id);
+
+            if (collection == null)
+            {
+                return HttpNotFound();
+            }
+
+            var card = db.Cards.Find(cardId);
+
+            if (card == null)
+            {
+                return HttpNotFound();
+            }
+
+            collection.AddCard(card);
+            db.SaveChanges();
+
+            return RedirectToAction("Details", new {id = id});
+        }
+
+        [HttpGet, ActionName("Remove")]
+        public ActionResult Remove(int id, int cardId)
+        {
+            var collection = db.CardLists.OfType<Collection>().FirstOrDefault(c => c.Id == id);
+
+            if (collection == null)
+            {
+                return HttpNotFound();
+            }
+
+            var card = db.Cards.Find(cardId);
+
+            if (card == null)
+            {
+                return HttpNotFound();
+            }
+
+            collection.RemoveCard(card);
+            db.SaveChanges();
+
+            return RedirectToAction("Details", new { id = id });
         }
 
         protected override void Dispose(bool disposing)

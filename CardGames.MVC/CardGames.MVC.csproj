@@ -270,6 +270,7 @@
     <Content Include="Views\Collections\Details.cshtml" />
     <Content Include="Views\Collections\Create.cshtml" />
     <Content Include="Views\Collections\Edit.cshtml" />
+    <Content Include="Views\Collections\AddCard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

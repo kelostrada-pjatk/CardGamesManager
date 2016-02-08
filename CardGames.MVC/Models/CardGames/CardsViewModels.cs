@@ -71,4 +71,28 @@ namespace CardGames.MVC.Models.CardGames
             };
         }
     }
+
+    public class AddCardViewModel
+    {
+        public AddCardViewModel()
+        {
+            Quantity = 1;
+        }
+
+        [Required]
+        public int CollectionId { get; set; }
+        [Required]
+        public int Quantity { get; set; }
+        public int? GameId { get; set; }
+        public int? EditionId { get; set; }
+        public int? CardId { get; set; }
+    }
+
+    public class OneCardViewModel
+    {
+        [Required]
+        public int Id { get; set; }
+        [Required]
+        public int CardId { get; set; }
+    }
 }

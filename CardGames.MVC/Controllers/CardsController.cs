@@ -55,7 +55,7 @@ namespace CardGames.MVC.Controllers
 
                 db.Cards.Add(card);
 
-                var cardInList = edition.EditionCardList.AddCard(card, cardViewModel.Number);
+                var cardInList = edition.EditionCardList.AddCard(card, 1, cardViewModel.Number);
 
                 //db.Entry(cardInList).State = EntityState.Modified; 
 

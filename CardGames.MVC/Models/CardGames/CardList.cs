@@ -14,17 +14,32 @@ namespace CardGames.MVC.Models.CardGames
 
         public virtual ICollection<CardInCardList> CardInCardLists { get; set; }
 
-        public virtual CardInCardList AddCard(Card card)
+        public virtual CardInCardList AddCard(Card card, int quantity = 1, int number = 1)
         {
             var cardInList = CardInCardLists.FirstOrDefault(c => c.CardId == card.Id);
             if (cardInList == null)
             {
-                cardInList = new CardInCardList {Card = card, CardList = this};
+                cardInList = new CardInCardList {Card = card, CardList = this, Number = number, Quantity = quantity};
                 CardInCardLists.Add(cardInList);
             }
             else
             {
-                cardInList.Quantity++;
+                cardInList.Quantity += quantity;
+            }
+            return cardInList;
+        }
+
+        public virtual CardInCardList RemoveCard(Card card, int quantity = 1)
+        {
+            var cardInList = CardInCardLists.First(c => c.CardId == card.Id);
+
+            if (cardInList.Quantity <= quantity)
+            {
+                CardInCardLists.Remove(cardInList);
+            }
+            else
+            {
+                cardInList.Quantity -= quantity;
             }
             return cardInList;
         }
@@ -45,12 +60,6 @@ namespace CardGames.MVC.Models.CardGames
             get { return Editions.FirstOrDefault(); }
         }
 
-        public CardInCardList AddCard(Card card, int number)
-        {
-            var cardInCardList = base.AddCard(card);
-            cardInCardList.Number = number;
-            return cardInCardList;
-        }
     }
 
     public class Deck : Collection
