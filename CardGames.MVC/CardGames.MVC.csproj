@@ -265,11 +265,11 @@
     <Content Include="Views\Cards\Delete.cshtml" />
     <Content Include="Views\Cards\Details.cshtml" />
     <Content Include="Views\Cards\Edit.cshtml" />
-    <Content Include="Views\Collections\Create.cshtml" />
     <Content Include="Views\Collections\Delete.cshtml" />
-    <Content Include="Views\Collections\Details.cshtml" />
-    <Content Include="Views\Collections\Edit.cshtml" />
     <Content Include="Views\Collections\Index.cshtml" />
+    <Content Include="Views\Collections\Details.cshtml" />
+    <Content Include="Views\Collections\Create.cshtml" />
+    <Content Include="Views\Collections\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

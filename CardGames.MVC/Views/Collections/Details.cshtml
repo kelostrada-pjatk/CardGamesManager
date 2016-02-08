@@ -1,4 +1,4 @@
-﻿@model CardGames.MVC.Models.CardGames.Collection
+﻿@model CardGames.MVC.Models.CardGames.CollectionViewModel
 
 @{
     ViewBag.Title = "Details";
@@ -7,7 +7,7 @@
 <h2>Details</h2>
 
 <div>
-    <h4>Collection</h4>
+    <h4>CollectionViewModel</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -27,11 +27,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.User.Email)
+            @Html.DisplayNameFor(model => model.Deck)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.User.Email)
+            @Html.DisplayFor(model => model.Deck)
         </dd>
 
     </dl>
