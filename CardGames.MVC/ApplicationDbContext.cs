@@ -43,5 +43,6 @@ namespace CardGames.MVC
         {
             return new ApplicationDbContext();
         }
+
     }
 }

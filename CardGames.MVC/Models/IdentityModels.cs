@@ -1,5 +1,7 @@
-﻿using System.Security.Claims;
+﻿using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using CardGames.MVC.Models.CardGames;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
@@ -15,6 +17,8 @@ namespace CardGames.MVC.Models
             // Add custom user claims here
             return userIdentity;
         }
+
+        public virtual ICollection<Collection> Collections { get; set; }
     }
 
     

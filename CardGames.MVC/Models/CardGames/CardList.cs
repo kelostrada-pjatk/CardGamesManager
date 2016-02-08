@@ -53,13 +53,14 @@ namespace CardGames.MVC.Models.CardGames
         }
     }
 
-    public class Deck : CardList
+    public class Deck : Collection
     {
         
     }
 
     public class Collection : CardList
     {
-        
+        public string UserId { get; set; }
+        public virtual ApplicationUser User { get; set; }
     }
 }

@@ -161,6 +161,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CardsController.cs" />
+    <Compile Include="Controllers\CollectionsController.cs" />
     <Compile Include="Controllers\EditionsController.cs" />
     <Compile Include="Controllers\GamesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -182,6 +183,10 @@
     <Compile Include="Migrations\201602072216346_AddCardInList.cs" />
     <Compile Include="Migrations\201602072216346_AddCardInList.Designer.cs">
       <DependentUpon>201602072216346_AddCardInList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201602080838244_AddUserToCollection.cs" />
+    <Compile Include="Migrations\201602080838244_AddUserToCollection.Designer.cs">
+      <DependentUpon>201602080838244_AddUserToCollection.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -260,6 +265,11 @@
     <Content Include="Views\Cards\Delete.cshtml" />
     <Content Include="Views\Cards\Details.cshtml" />
     <Content Include="Views\Cards\Edit.cshtml" />
+    <Content Include="Views\Collections\Create.cshtml" />
+    <Content Include="Views\Collections\Delete.cshtml" />
+    <Content Include="Views\Collections\Details.cshtml" />
+    <Content Include="Views\Collections\Edit.cshtml" />
+    <Content Include="Views\Collections\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -283,6 +293,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201602072216346_AddCardInList.resx">
       <DependentUpon>201602072216346_AddCardInList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201602080838244_AddUserToCollection.resx">
+      <DependentUpon>201602080838244_AddUserToCollection.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
